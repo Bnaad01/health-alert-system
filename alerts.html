@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Alerts - Gombe Health Alert System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Public Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-shield-virus me-2"></i>
+                Gombe Health Alert System
+            </a>
+            
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-home me-1"></i>Home
+                </a>
+                <a class="nav-link active" href="/alerts">
+                    <i class="fas fa-bell me-1"></i>Alerts
+                </a>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i>
+                        Get Started
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/citizen/login">
+                            <i class="fas fa-user me-2"></i>Citizen Login
+                        </a></li>
+                        <li><a class="dropdown-item" href="/health-worker/login">
+                            <i class="fas fa-user-md me-2"></i>Health Worker Login
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/citizen/registration">
+                            <i class="fas fa-user-plus me-2"></i>Register as Citizen
+                        </a></li>
+                        <li><a class="dropdown-item" href="/health-worker/registration">
+                            <i class="fas fa-stethoscope me-2"></i>Register as Health Worker
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="display-5 fw-bold text-primary">
+                        <i class="fas fa-bell me-3"></i>
+                        Health Alerts & Advisories
+                    </h1>
+                    <p class="lead text-muted">
+                        Stay informed with the latest health alerts from Gombe State Ministry of Health
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alerts Section -->
+    <section class="container my-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="fw-bold">Current Health Alerts</h3>
+                    <div class="btn-group">
+                        <button class="btn btn-outline-primary active" data-filter="all">All Alerts</button>
+                        <button class="btn btn-outline-danger" data-filter="critical">Critical</button>
+                        <button class="btn btn-outline-warning" data-filter="high">High</button>
+                        <button class="btn btn-outline-info" data-filter="medium">Medium</button>
+                    </div>
+                </div>
+                <p class="text-muted">Real-time updates from health authorities</p>
+            </div>
+        </div>
+
+        <div class="row" id="alertsContainer">
+            <div class="col-12 text-center">
+                <div class="loading-spinner mx-auto mb-3"></div>
+                <p>Loading health alerts...</p>
+            </div>
+        </div>
+
+        <!-- No Alerts Message -->
+        <div class="row d-none" id="noAlertsMessage">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle fa-2x mb-3"></i>
+                    <h4>No Active Alerts</h4>
+                    <p class="mb-0">There are no active health alerts at the moment. Check back later for updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Information -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-4">
+                    <h3 class="fw-bold">Emergency Contacts</h3>
+                    <p class="text-muted">Important contact information for health emergencies</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-ambulance fa-2x text-danger mb-3"></i>
+                            <h5>Emergency Ambulance</h5>
+                            <p class="text-muted">24/7 Emergency Services</p>
+                            <h4 class="text-primary">112</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-hospital fa-2x text-primary mb-3"></i>
+                            <h5>Gombe Specialist Hospital</h5>
+                            <p class="text-muted">Main Healthcare Facility</p>
+                            <h4 class="text-primary">080-12345678</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-shield-alt fa-2x text-success mb-3"></i>
+                            <h5>Ministry of Health</h5>
+                            <p class="text-muted">Public Health Information</p>
+                            <h4 class="text-primary">080-87654321</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Gombe Health Alert System</h5>
+                    <p>Providing timely health alerts and advisory services to the people of Gombe State.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">&copy; 2025 Gombe Health Alert System. Developed by ABDULSALAM SAADU.</p>
+                    <p class="mb-0">All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllAlerts();
+            setupFilterButtons();
+        });
+
+        function loadAllAlerts() {
+            fetch('/api/public/alerts/all')
+                .then(response => response.json())
+                .then(alerts => {
+                    const container = document.getElementById('alertsContainer');
+                    const noAlertsMessage = document.getElementById('noAlertsMessage');
+
+                    if (!alerts || alerts.length === 0) {
+                        container.classList.add('d-none');
+                        noAlertsMessage.classList.remove('d-none');
+                        return;
+                    }
+
+                    container.classList.remove('d-none');
+                    noAlertsMessage.classList.add('d-none');
+
+                    let html = '';
+                    alerts.forEach(alert => {
+                        html += `
+                            <div class="col-lg-6 mb-4 alert-item" data-severity="${alert.severity}">
+                                <div class="card alert-${alert.severity === 'critical' ? 'critical' : alert.severity === 'high' ? 'high' : alert.severity === 'medium' ? 'medium' : 'low'} h-100">
+                                    ${alert.alert_image ? `
+                                        <img src="${alert.alert_image}" class="card-img-top" alt="Alert Image" style="height: 200px; object-fit: cover;">
+                                    ` : ''}
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h5 class="card-title">${alert.title}</h5>
+                                            <span class="badge bg-${getSeverityBadgeColor(alert.severity)}">
+                                                ${alert.severity.toUpperCase()}
+                                            </span>
+                                        </div>
+                                        <p class="card-text">${alert.description}</p>
+                                        <div class="mt-auto">
+                                            <small class="text-muted">
+                                                <i class="fas fa-map-marker-alt me-1"></i>
+                                                ${alert.locations}
+                                            </small>
+                                            <br>
+                                            <small class="text-muted">
+                                                <i class="fas fa-clock me-1"></i>
+                                                ${new Date(alert.created_at).toLocaleDateString()} at 
+                                                ${new Date(alert.created_at).toLocaleTimeString()}
+                                            </small>
+                                            ${alert.created_by_name ? `
+                                                <br>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-user me-1"></i>
+                                                    Issued by: ${alert.created_by_name}
+                                                </small>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading alerts:', error);
+                    document.getElementById('alertsContainer').innerHTML = `
+                        <div class="col-12 text-center">
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Unable to load alerts at the moment. Please try again later.
+                            </div>
+                        </div>
+                    `;
+                });
+        }
+
+        function setupFilterButtons() {
+            const filterButtons = document.querySelectorAll('[data-filter]');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    filterAlerts(filter);
+                });
+            });
+        }
+
+        function filterAlerts(severity) {
+            const alertItems = document.querySelectorAll('.alert-item');
+            
+            alertItems.forEach(item => {
+                if (severity === 'all' || item.getAttribute('data-severity') === severity) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function getSeverityBadgeColor(severity) {
+            const colors = {
+                'critical': 'danger',
+                'high': 'warning',
+                'medium': 'info',
+                'low': 'success'
+            };
+            return colors[severity] || 'secondary';
+        }
+    </script>
+</body>
+</html>
