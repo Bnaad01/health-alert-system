@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Professional Report - Health Worker Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="sidebar-header text-center mb-4">
+                        <h5 class="text-white">
+                            <i class="fas fa-user-md me-2"></i>
+                            Health Worker Panel
+                        </h5>
+                        <small class="text-white-50" id="userName">Loading...</small>
+                    </div>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/health-worker/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/health-worker/report-submission">
+                                <i class="fas fa-plus-circle me-2"></i>
+                                Submit Report
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/health-worker/reports">
+                                <i class="fas fa-clipboard-list me-2"></i>
+                                My Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/health-worker/profile">
+                                <i class="fas fa-user-cog me-2"></i>
+                                Profile
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <button class="nav-link logout-btn text-start">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
+                <!-- Header -->
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">
+                        <i class="fas fa-plus-circle me-2"></i>
+                        Submit Professional Report
+                    </h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a href="/health-worker/reports" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-clipboard-list me-1"></i> View My Reports
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Professional Alert -->
+                <div class="alert alert-primary mb-4">
+                    <h5><i class="fas fa-user-md me-2"></i>Professional Reporting</h5>
+                    <p class="mb-0">
+                        As a healthcare professional, your reports receive priority attention from health authorities. 
+                        Please provide detailed clinical information and observations.
+                    </p>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card dashboard-card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-file-medical me-2"></i>
+                                    Professional Health Report
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="reportSubmissionForm" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="reportTitle" class="form-label">Report Title *</label>
+                                        <input type="text" class="form-control" id="reportTitle" name="title" required 
+                                               placeholder="Clinical/professional title of the health concern">
+                                        <div class="form-text">Example: "Suspected Measles Outbreak - Clinical Presentation"</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="reportDescription" class="form-label">Clinical Details *</label>
+                                        <textarea class="form-control" id="reportDescription" name="description" rows="6" required 
+                                                  placeholder="Provide detailed clinical observations, case definitions, symptoms, laboratory findings (if available), and epidemiological information"></textarea>
+                                        <div class="form-text">
+                                            Include: Case counts, age distribution, symptom patterns, duration, severity, and any laboratory confirmation.
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="reportLocation" class="form-label">Specific Location *</label>
+                                                <input type="text" class="form-control" id="reportLocation" name="location" required 
+                                                       placeholder="Facility name, community, or specific area">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="reportLGA" class="form-label">LGA *</label>
+                                                <select class="form-select" id="reportLGA" name="lga" required>
+                                                    <option value="">Select LGA</option>
+                                                    <option value="Akko">Akko</option>
+                                                    <option value="Balanga">Balanga</option>
+                                                    <option value="Billiri">Billiri</option>
+                                                    <option value="Dukku">Dukku</option>
+                                                    <option value="Funakaye">Funakaye</option>
+                                                    <option value="Gombe">Gombe</option>
+                                                    <option value="Kaltungo">Kaltungo</option>
+                                                    <option value="Kwami">Kwami</option>
+                                                    <option value="Nafada">Nafada</option>
+                                                    <option value="Shongom">Shongom</option>
+                                                    <option value="Yamaltu/Deba">Yamaltu/Deba</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="caseCount" class="form-label">Number of Cases (Optional)</label>
+                                        <input type="number" class="form-control" id="caseCount" name="case_count" 
+                                               placeholder="Estimated or confirmed number of cases" min="1">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="suspectedDisease" class="form-label">Suspected Disease/Condition (Optional)</label>
+                                        <select class="form-select" id="suspectedDisease" name="suspected_disease">
+                                            <option value="">Select if known</option>
+                                            <option value="Cholera">Cholera</option>
+                                            <option value="Measles">Measles</option>
+                                            <option value="Malaria">Malaria</option>
+                                            <option value="COVID-19">COVID-19</option>
+                                            <option value="Lassa Fever">Lassa Fever</option>
+                                            <option value="Meningitis">Meningitis</option>
+                                            <option value="Yellow Fever">Yellow Fever</option>
+                                            <option value="Other">Other (specify in description)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="reportImage" class="form-label">Supporting Documentation (Optional)</label>
+                                        <div class="file-upload">
+                                            <input type="file" class="form-control" id="reportImage" name="report_image" 
+                                                   accept="image/*">
+                                            <div class="text-center mt-2">
+                                                <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                                                <p class="text-muted mb-1">Click to upload or drag and drop</p>
+                                                <small class="text-muted">PNG, JPG, GIF up to 5MB</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-text">
+                                            Upload clinical photos, lab results (ensure patient confidentiality), or other relevant documentation.
+                                        </div>
+                                        <div class="image-preview mt-3"></div>
+                                    </div>
+
+                                    <div class="alert alert-warning">
+                                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Professional Guidelines</h6>
+                                        <p class="mb-2 small">Please ensure:</p>
+                                        <ul class="small mb-0">
+                                            <li>Information is clinically accurate and evidence-based</li>
+                                            <li>Patient confidentiality is maintained (no identifiable information)</li>
+                                            <li>Laboratory findings are included when available</li>
+                                            <li>Case definitions follow standard protocols</li>
+                                            <li>Immediate threats to public health are clearly highlighted</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary btn-lg" id="submitReportBtn">
+                                            <i class="fas fa-paper-plane me-2"></i>
+                                            Submit Professional Report
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Guidelines -->
+                    <div class="col-lg-4">
+                        <div class="card dashboard-card mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-book-medical me-2"></i>
+                                    Reporting Guidelines
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <h6 class="text-success">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        Report Immediately:
+                                    </h6>
+                                    <ul class="small text-muted">
+                                        <li>Cluster of unusual symptoms</li>
+                                        <li>Suspected outbreak situations</li>
+                                        <li>Vaccine-preventable diseases</li>
+                                        <li>Severe or unusual case presentations</li>
+                                        <li>Healthcare-associated infections</li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="text-primary">
+                                        <i class="fas fa-stethoscope me-2"></i>
+                                        Clinical Information:
+                                    </h6>
+                                    <ul class="small text-muted">
+                                        <li>Case definitions used</li>
+                                        <li>Laboratory confirmation status</li>
+                                        <li>Epidemiological links</li>
+                                        <li>Treatment responses</li>
+                                        <li>Public health implications</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Professional Reports -->
+                        <div class="card dashboard-card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-history me-2"></i>
+                                    My Recent Reports
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="recentReportsList">
+                                    <div class="text-center">
+                                        <div class="loading-spinner"></div>
+                                        <p>Loading recent reports...</p>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a href="/health-worker/reports" class="btn btn-sm btn-outline-info">View All Reports</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Priority Contacts -->
+                        <div class="card dashboard-card mt-4">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-phone-alt me-2"></i>
+                                    Emergency Contacts
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center mb-3">
+                                    <h4 class="text-danger">112</h4>
+                                    <p class="small text-muted mb-2">Emergency Services</p>
+                                </div>
+                                <div class="small">
+                                    <strong>Epidemiology Unit:</strong><br>
+                                    <span class="text-muted">080-EPI-HELP</span><br><br>
+                                    <strong>Disease Surveillance:</strong><br>
+                                    <span class="text-muted">080-SURV-EILL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/health-worker.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            loadRecentReports();
+            setupFormHandler();
+        });
+
+        function loadUserInfo() {
+            // This would typically come from session
+            document.getElementById('userName').textContent = 'Health Worker';
+        }
+
+        function loadRecentReports() {
+            fetch('/api/health-worker/reports?limit=3')
+                .then(response => response.json())
+                .then(reports => {
+                    const container = document.getElementById('recentReportsList');
+                    
+                    if (!reports || reports.length === 0) {
+                        container.innerHTML = `
+                            <div class="text-center">
+                                <i class="fas fa-file-medical fa-2x text-muted mb-3"></i>
+                                <p class="text-muted small">No professional reports submitted yet</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    let html = '';
+                    reports.slice(0, 3).forEach(report => {
+                        html += `
+                            <div class="mb-3 pb-2 border-bottom">
+                                <h6 class="mb-1">${report.title}</h6>
+                                <small class="text-muted d-block">${report.location}</small>
+                                <small class="text-muted">
+                                    ${new Date(report.created_at).toLocaleDateString()} • 
+                                    <span class="badge bg-${getStatusBadgeColor(report.status)}">
+                                        ${report.status.replace('_', ' ')}
+                                    </span>
+                                </small>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading recent reports:', error);
+                    document.getElementById('recentReportsList').innerHTML = `
+                        <div class="text-center text-muted">
+                            <p>Error loading reports</p>
+                        </div>
+                    `;
+                });
+        }
+
+        function setupFormHandler() {
+            const form = document.getElementById('reportSubmissionForm');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const submitButton = document.getElementById('submitReportBtn');
+                const formData = new FormData(this);
+
+                // Basic validation
+                const title = formData.get('title');
+                const description = formData.get('description');
+                const location = formData.get('location');
+                const lga = formData.get('lga');
+
+                if (!title || !description || !location || !lga) {
+                    healthSystem.showNotification('Please fill in all required fields', 'error');
+                    return;
+                }
+
+                healthSystem.setLoadingState(submitButton, true);
+
+                try {
+                    const response = await fetch('/api/health-worker/reports/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        healthSystem.showNotification('Professional report submitted successfully! It will receive priority review.', 'success');
+                        form.reset();
+                        
+                        // Clear image preview
+                        const preview = document.querySelector('.image-preview');
+                        if (preview) preview.remove();
+                        
+                        // Reload recent reports
+                        loadRecentReports();
+                        
+                        // Show success message
+                        setTimeout(() => {
+                            healthSystem.showNotification('Thank you for your professional contribution to public health!', 'success');
+                        }, 1000);
+                    } else {
+                        healthSystem.showNotification(result.error, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error submitting report:', error);
+                    healthSystem.showNotification('Error submitting report. Please try again.', 'error');
+                } finally {
+                    healthSystem.setLoadingState(submitButton, false);
+                }
+            });
+        }
+
+        function getStatusBadgeColor(status) {
+            const colors = {
+                'pending': 'warning',
+                'under_review': 'info',
+                'verified': 'success',
+                'rejected': 'danger',
+                'action_taken': 'primary'
+            };
+            return colors[status] || 'secondary';
+        }
+    </script>
+</body>
+</html>

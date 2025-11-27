@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Gombe Health Alert System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="sidebar-header text-center mb-4">
+                        <h5 class="text-white">
+                            <i class="fas fa-shield-virus me-2"></i>
+                            Admin Panel
+                        </h5>
+                    </div>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/admin/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/verification">
+                                <i class="fas fa-user-check me-2"></i>
+                                User Verification
+                                <span class="badge bg-warning ms-2" id="pendingVerificationBadge">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/reports">
+                                <i class="fas fa-clipboard-list me-2"></i>
+                                Reports Management
+                                <span class="badge bg-info ms-2" id="pendingReportsBadge">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/alerts">
+                                <i class="fas fa-bell me-2"></i>
+                                Alerts Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users">
+                                <i class="fas fa-users me-2"></i>
+                                User Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/profile">
+                                <i class="fas fa-user-cog me-2"></i>
+                                Profile Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <button class="nav-link logout-btn text-start">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
+                <!-- Header -->
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        Admin Dashboard
+                    </h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="notificationDropdown" data-bs-toggle="dropdown">
+                                <i class="fas fa-bell me-1"></i>
+                                Notifications
+                                <span class="badge bg-danger notification-badge">0</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" id="notificationDropdownMenu" style="width: 300px;">
+                                <li><h6 class="dropdown-header">Recent Notifications</h6></li>
+                                <div id="notificationList">
+                                    <!-- Notifications will be loaded here -->
+                                </div>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-center" href="#" id="viewAllNotifications">View All</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card dashboard-card border-start border-primary border-4">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col me-2">
+                                        <div class="text-xs fw-bold text-primary text-uppercase mb-1">
+                                            Total Users
+                                        </div>
+                                        <div class="h5 mb-0 fw-bold text-gray-800" id="totalUsers">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card dashboard-card border-start border-warning border-4">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col me-2">
+                                        <div class="text-xs fw-bold text-warning text-uppercase mb-1">
+                                            Pending Verification
+                                        </div>
+                                        <div class="h5 mb-0 fw-bold text-gray-800" id="pendingVerifications">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-clock fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card dashboard-card border-start border-info border-4">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col me-2">
+                                        <div class="text-xs fw-bold text-info text-uppercase mb-1">
+                                            Pending Reports
+                                        </div>
+                                        <div class="h5 mb-0 fw-bold text-gray-800" id="pendingReports">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card dashboard-card border-start border-danger border-4">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col me-2">
+                                        <div class="text-xs fw-bold text-danger text-uppercase mb-1">
+                                            Critical Alerts
+                                        </div>
+                                        <div class="h5 mb-0 fw-bold text-gray-800" id="criticalAlerts">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card dashboard-card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-bolt me-2"></i>
+                                    Quick Actions
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-3 mb-3">
+                                        <a href="/admin/verification" class="btn btn-outline-primary btn-lg w-100">
+                                            <i class="fas fa-user-check fa-2x mb-2"></i><br>
+                                            Verify Users
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <a href="/admin/reports" class="btn btn-outline-info btn-lg w-100">
+                                            <i class="fas fa-clipboard-list fa-2x mb-2"></i><br>
+                                            Manage Reports
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <a href="/admin/alerts" class="btn btn-outline-warning btn-lg w-100">
+                                            <i class="fas fa-bell fa-2x mb-2"></i><br>
+                                            Create Alert
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <a href="/admin/users" class="btn btn-outline-success btn-lg w-100">
+                                            <i class="fas fa-users fa-2x mb-2"></i><br>
+                                            View Users
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card dashboard-card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-clock me-2"></i>
+                                    Recent Reports
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="recentReports">
+                                    <div class="text-center">
+                                        <div class="loading-spinner"></div>
+                                        <p>Loading recent reports...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card dashboard-card">
+                            <div class="card-header bg-warning text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    Recent Alerts
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="recentAlerts">
+                                    <div class="text-center">
+                                        <div class="loading-spinner"></div>
+                                        <p>Loading recent alerts...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/socket.js"></script>
+    <script src="/js/admin.js"></script>
+    
+    <script>
+        // Admin dashboard specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardStats();
+            loadRecentReports();
+            loadRecentAlerts();
+            loadNotifications();
+
+            // Refresh data every 30 seconds
+            setInterval(() => {
+                loadDashboardStats();
+                loadRecentReports();
+                loadRecentAlerts();
+                loadNotifications();
+            }, 30000);
+        });
+
+        function loadDashboardStats() {
+            fetch('/api/admin/dashboard/stats')
+                .then(response => response.json())
+                .then(stats => {
+                    document.getElementById('totalUsers').textContent = stats.totalUsers;
+                    document.getElementById('pendingVerifications').textContent = stats.pendingVerifications;
+                    document.getElementById('pendingReports').textContent = stats.pendingReports;
+                    document.getElementById('criticalAlerts').textContent = stats.criticalAlerts;
+
+                    // Update sidebar badges
+                    document.getElementById('pendingVerificationBadge').textContent = stats.pendingVerifications;
+                    document.getElementById('pendingReportsBadge').textContent = stats.pendingReports;
+                })
+                .catch(error => {
+                    console.error('Error loading dashboard stats:', error);
+                    healthSystem.showNotification('Error loading dashboard statistics', 'error');
+                });
+        }
+
+        function loadRecentReports() {
+            fetch('/api/admin/reports?limit=5')
+                .then(response => response.json())
+                .then(reports => {
+                    const container = document.getElementById('recentReports');
+                    
+                    if (reports.length === 0) {
+                        container.innerHTML = '<p class="text-muted text-center">No recent reports</p>';
+                        return;
+                    }
+
+                    let html = '';
+                    reports.slice(0, 5).forEach(report => {
+                        html += `
+                            <div class="d-flex align-items-center mb-3 pb-2 border-bottom">
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-1">${report.title}</h6>
+                                    <small class="text-muted">
+                                        By: ${report.full_name} • 
+                                        ${new Date(report.created_at).toLocaleDateString()}
+                                    </small>
+                                </div>
+                                <span class="badge bg-${getStatusBadgeColor(report.status)}">
+                                    ${report.status.replace('_', ' ')}
+                                </span>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading recent reports:', error);
+                    document.getElementById('recentReports').innerHTML = '<p class="text-danger">Error loading reports</p>';
+                });
+        }
+
+        function loadRecentAlerts() {
+            fetch('/api/admin/alerts?limit=5')
+                .then(response => response.json())
+                .then(alerts => {
+                    const container = document.getElementById('recentAlerts');
+                    
+                    if (alerts.length === 0) {
+                        container.innerHTML = '<p class="text-muted text-center">No recent alerts</p>';
+                        return;
+                    }
+
+                    let html = '';
+                    alerts.slice(0, 5).forEach(alert => {
+                        html += `
+                            <div class="d-flex align-items-center mb-3 pb-2 border-bottom">
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-1">${alert.title}</h6>
+                                    <small class="text-muted">
+                                        ${new Date(alert.created_at).toLocaleDateString()} • 
+                                        ${alert.locations}
+                                    </small>
+                                </div>
+                                <span class="badge bg-${getSeverityBadgeColor(alert.severity)}">
+                                    ${alert.severity}
+                                </span>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading recent alerts:', error);
+                    document.getElementById('recentAlerts').innerHTML = '<p class="text-danger">Error loading alerts</p>';
+                });
+        }
+        
+        
+                function loadNotifications() {
+            fetch('/api/admin/notifications?limit=5')
+                .then(response => response.json())
+                .then(notifications => {
+                    const container = document.getElementById('notificationList');
+                    const badge = document.querySelector('.notification-badge');
+                    
+                    if (!notifications) {
+                        notifications = [];
+                    }
+                    
+                    const unreadCount = notifications.filter(n => !n.is_read).length;
+                    badge.textContent = unreadCount;
+                    badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+
+                    if (notifications.length === 0) {
+                        container.innerHTML = '<li><span class="dropdown-item-text text-muted">No notifications</span></li>';
+                        return;
+                    }
+
+                    let html = '';
+                    notifications.slice(0, 5).forEach(notification => {
+                        html += `
+                            <li>
+                                <a class="dropdown-item ${notification.is_read ? '' : 'fw-bold'}" href="#">
+                                    <div class="small">${notification.title}</div>
+                                    <div class="text-muted">${notification.message}</div>
+                                    <div class="text-muted small">${new Date(notification.created_at).toLocaleDateString()}</div>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                        `;
+                    });
+
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading notifications:', error);
+                    const container = document.getElementById('notificationList');
+                    container.innerHTML = '<li><span class="dropdown-item-text text-muted">Error loading notifications</span></li>';
+                });
+        }
+
+        function getStatusBadgeColor(status) {
+            const colors = {
+                'pending': 'warning',
+                'under_review': 'info',
+                'verified': 'success',
+                'rejected': 'danger',
+                'action_taken': 'primary'
+            };
+            return colors[status] || 'secondary';
+        }
+
+        function getSeverityBadgeColor(severity) {
+            const colors = {
+                'critical': 'danger',
+                'high': 'warning',
+                'medium': 'info',
+                'low': 'success'
+            };
+            return colors[severity] || 'secondary';
+        }
+    </script>
+</body>
+</html>

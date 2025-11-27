@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts Management - Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="sidebar-header text-center mb-4">
+                        <h5 class="text-white">
+                            <i class="fas fa-shield-virus me-2"></i>
+                            Admin Panel
+                        </h5>
+                    </div>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/verification">
+                                <i class="fas fa-user-check me-2"></i>
+                                User Verification
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/reports">
+                                <i class="fas fa-clipboard-list me-2"></i>
+                                Reports Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/admin/alerts">
+                                <i class="fas fa-bell me-2"></i>
+                                Alerts Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users">
+                                <i class="fas fa-users me-2"></i>
+                                User Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/profile">
+                                <i class="fas fa-user-cog me-2"></i>
+                                Profile Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <button class="nav-link logout-btn text-start">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
+                <!-- Header -->
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">
+                        <i class="fas fa-bell me-2"></i>
+                        Alerts Management
+                    </h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#createAlertModal">
+                            <i class="fas fa-plus me-1"></i> Create Alert
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="loadAlerts()">
+                            <i class="fas fa-sync-alt me-1"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card dashboard-card border-start border-primary border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-primary">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="stat-number text-primary" id="totalAlerts">0</div>
+                                <div class="text-xs fw-bold text-primary text-uppercase">
+                                    Total Alerts
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card dashboard-card border-start border-danger border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-danger">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="stat-number text-danger" id="criticalAlerts">0</div>
+                                <div class="text-xs fw-bold text-danger text-uppercase">
+                                    Critical
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card dashboard-card border-start border-warning border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-warning">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="stat-number text-warning" id="highAlerts">0</div>
+                                <div class="text-xs fw-bold text-warning text-uppercase">
+                                    High
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card dashboard-card border-start border-success border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-number text-success" id="activeAlerts">0</div>
+                                <div class="text-xs fw-bold text-success text-uppercase">
+                                    Active (7 days)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts Table -->
+                <div class="card dashboard-card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list me-2"></i>
+                            Health Alerts
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="alertsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Alert Details</th>
+                                        <th>Severity</th>
+                                        <th>Locations</th>
+                                        <th>Created</th>
+                                        <th>Last Updated</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alertsBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div class="loading-spinner mx-auto mb-2"></div>
+                                            <p>Loading alerts...</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- No Alerts Message -->
+                        <div class="text-center d-none" id="noAlerts">
+                            <div class="py-5">
+                                <i class="fas fa-bell-slash fa-3x text-muted mb-3"></i>
+                                <h4>No Alerts Created</h4>
+                                <p class="text-muted">There are no health alerts created yet.</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAlertModal">
+                                    <i class="fas fa-plus me-1"></i> Create First Alert
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Create Alert Modal -->
+    <div class="modal fade" id="createAlertModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Health Alert</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="createAlertForm" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="alertTitle" class="form-label">Alert Title *</label>
+                                    <input type="text" class="form-control" id="alertTitle" name="title" required 
+                                           placeholder="Enter alert title">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="alertSeverity" class="form-label">Severity Level *</label>
+                                    <select class="form-select" id="alertSeverity" name="severity" required>
+                                        <option value="">Select severity</option>
+                                        <option value="critical">Critical</option>
+                                        <option value="high">High</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="alertDescription" class="form-label">Description *</label>
+                            <textarea class="form-control" id="alertDescription" name="description" rows="4" required 
+                                      placeholder="Provide detailed information about the health alert"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="alertLocations" class="form-label">Affected Locations *</label>
+                            <input type="text" class="form-control" id="alertLocations" name="locations" required 
+                                   placeholder="e.g., Gombe, Akko, Balanga, Billiri">
+                            <div class="form-text">Separate multiple locations with commas</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="alertImage" class="form-label">Alert Image (Optional)</label>
+                            <div class="file-upload">
+                                <input type="file" class="form-control" id="alertImage" name="alert_image" 
+                                       accept="image/*">
+                                <div class="text-center mt-2">
+                                    <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                                    <p class="text-muted mb-1">Click to upload or drag and drop</p>
+                                    <small class="text-muted">PNG, JPG, GIF up to 5MB</small>
+                                </div>
+                            </div>
+                            <div class="image-preview mt-3"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-bell me-1"></i> Create Alert
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Alert Modal -->
+    <div class="modal fade" id="editAlertModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Health Alert</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editAlertForm" enctype="multipart/form-data">
+                    <input type="hidden" id="editAlertId" name="alertId">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editAlertTitle" class="form-label">Alert Title *</label>
+                                    <input type="text" class="form-control" id="editAlertTitle" name="title" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editAlertSeverity" class="form-label">Severity Level *</label>
+                                    <select class="form-select" id="editAlertSeverity" name="severity" required>
+                                        <option value="critical">Critical</option>
+                                        <option value="high">High</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editAlertDescription" class="form-label">Description *</label>
+                            <textarea class="form-control" id="editAlertDescription" name="description" rows="4" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editAlertLocations" class="form-label">Affected Locations *</label>
+                            <input type="text" class="form-control" id="editAlertLocations" name="locations" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editAlertImage" class="form-label">Alert Image (Optional)</label>
+                            <div class="file-upload">
+                                <input type="file" class="form-control" id="editAlertImage" name="alert_image" 
+                                       accept="image/*">
+                                <div class="text-center mt-2">
+                                    <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                                    <p class="text-muted mb-1">Click to upload or drag and drop</p>
+                                    <small class="text-muted">PNG, JPG, GIF up to 5MB</small>
+                                </div>
+                            </div>
+                            <div class="current-image mt-3" id="currentAlertImage"></div>
+                            <div class="image-preview mt-3"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Update Alert
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/socket.js"></script>
+    <script src="/js/admin.js"></script>
+    
+    <script>
+        let allAlerts = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAlerts();
+            setupFormHandlers();
+            
+            // Refresh every 30 seconds
+            setInterval(loadAlerts, 30000);
+        });
+
+        function loadAlerts() {
+            fetch('/api/admin/alerts')
+                .then(response => response.json())
+                .then(alerts => {
+                    allAlerts = alerts;
+                    updateStatistics(alerts);
+                    renderAlertsTable(alerts);
+                })
+                .catch(error => {
+                    console.error('Error loading alerts:', error);
+                    healthSystem.showNotification('Error loading alerts', 'error');
+                });
+        }
+
+        function updateStatistics(alerts) {
+            const total = alerts.length;
+            const critical = alerts.filter(a => a.severity === 'critical').length;
+            const high = alerts.filter(a => a.severity === 'high').length;
+            
+            // Count active alerts (last 7 days)
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            const active = alerts.filter(a => new Date(a.created_at) >= sevenDaysAgo).length;
+
+            document.getElementById('totalAlerts').textContent = total;
+            document.getElementById('criticalAlerts').textContent = critical;
+            document.getElementById('highAlerts').textContent = high;
+            document.getElementById('activeAlerts').textContent = active;
+        }
+
+        function renderAlertsTable(alerts) {
+            const tbody = document.getElementById('alertsBody');
+            const noAlerts = document.getElementById('noAlerts');
+
+            if (alerts.length === 0) {
+                tbody.innerHTML = '';
+                noAlerts.classList.remove('d-none');
+                return;
+            }
+
+            noAlerts.classList.add('d-none');
+
+            let html = '';
+            alerts.forEach(alert => {
+                const createdDate = new Date(alert.created_at).toLocaleDateString();
+                const updatedDate = new Date(alert.updated_at).toLocaleDateString();
+                const severityColor = getSeverityBadgeColor(alert.severity);
+
+                html += `
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                ${alert.alert_image ? `
+                                    <div class="flex-shrink-0 me-3">
+                                        <img src="${alert.alert_image}" alt="Alert Image" 
+                                             class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                    </div>
+                                ` : ''}
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">${alert.title}</h6>
+                                    <p class="mb-1 text-muted small">${alert.description.substring(0, 100)}...</p>
+                                    <small class="text-muted">
+                                        <i class="fas fa-user me-1"></i>${alert.created_by_name || 'System'}
+                                    </small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-${severityColor}">
+                                ${alert.severity.toUpperCase()}
+                            </span>
+                        </td>
+                        <td>
+                            <small>${alert.locations}</small>
+                        </td>
+                        <td>
+                            <small>${createdDate}</small>
+                        </td>
+                        <td>
+                            <small>${updatedDate}</small>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-primary" onclick="editAlert(${alert.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline-danger delete-alert-btn" 
+                                        data-alert-id="${alert.id}" 
+                                        data-alert-title="${alert.title}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function setupFormHandlers() {
+            // Create alert form
+            document.getElementById('createAlertForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const submitButton = this.querySelector('button[type="submit"]');
+                
+                healthSystem.setLoadingState(submitButton, true);
+
+                try {
+                    const response = await fetch('/api/admin/alerts/create', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        healthSystem.showNotification('Alert created successfully!', 'success');
+                        bootstrap.Modal.getInstance(document.getElementById('createAlertModal')).hide();
+                        this.reset();
+                        loadAlerts();
+                    } else {
+                        healthSystem.showNotification(result.error, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error creating alert:', error);
+                    healthSystem.showNotification('Error creating alert', 'error');
+                } finally {
+                    healthSystem.setLoadingState(submitButton, false);
+                }
+            });
+
+            // Edit alert form
+            document.getElementById('editAlertForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const submitButton = this.querySelector('button[type="submit"]');
+                
+                healthSystem.setLoadingState(submitButton, true);
+
+                try {
+                    const response = await fetch('/api/admin/alerts/update', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        healthSystem.showNotification('Alert updated successfully!', 'success');
+                        bootstrap.Modal.getInstance(document.getElementById('editAlertModal')).hide();
+                        this.reset();
+                        loadAlerts();
+                    } else {
+                        healthSystem.showNotification(result.error, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error updating alert:', error);
+                    healthSystem.showNotification('Error updating alert', 'error');
+                } finally {
+                    healthSystem.setLoadingState(submitButton, false);
+                }
+            });
+        }
+
+        function editAlert(alertId) {
+            const alert = allAlerts.find(a => a.id === alertId);
+            if (!alert) return;
+
+            document.getElementById('editAlertId').value = alert.id;
+            document.getElementById('editAlertTitle').value = alert.title;
+            document.getElementById('editAlertDescription').value = alert.description;
+            document.getElementById('editAlertSeverity').value = alert.severity;
+            document.getElementById('editAlertLocations').value = alert.locations;
+
+            // Show current image if exists
+            const currentImageContainer = document.getElementById('currentAlertImage');
+            if (alert.alert_image) {
+                currentImageContainer.innerHTML = `
+                    <label class="form-label">Current Image:</label>
+                    <div>
+                        <img src="${alert.alert_image}" alt="Current Alert Image" 
+                             class="img-thumbnail" style="max-height: 150px;">
+                    </div>
+                `;
+            } else {
+                currentImageContainer.innerHTML = '';
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('editAlertModal'));
+            modal.show();
+        }
+
+        function getSeverityBadgeColor(severity) {
+            const colors = {
+                'critical': 'danger',
+                'high': 'warning',
+                'medium': 'info',
+                'low': 'success'
+            };
+            return colors[severity] || 'secondary';
+        }
+    </script>
+</body>
+</html>

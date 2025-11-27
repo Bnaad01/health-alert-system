@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports Management - Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="sidebar-header text-center mb-4">
+                        <h5 class="text-white">
+                            <i class="fas fa-shield-virus me-2"></i>
+                            Admin Panel
+                        </h5>
+                    </div>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/verification">
+                                <i class="fas fa-user-check me-2"></i>
+                                User Verification
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/admin/reports">
+                                <i class="fas fa-clipboard-list me-2"></i>
+                                Reports Management
+                                <span class="badge bg-info ms-2" id="pendingReportsBadge">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/alerts">
+                                <i class="fas fa-bell me-2"></i>
+                                Alerts Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users">
+                                <i class="fas fa-users me-2"></i>
+                                User Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/profile">
+                                <i class="fas fa-user-cog me-2"></i>
+                                Profile Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <button class="nav-link logout-btn text-start">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
+                <!-- Header -->
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">
+                        <i class="fas fa-clipboard-list me-2"></i>
+                        Reports Management
+                    </h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="loadReports()">
+                                <i class="fas fa-sync-alt me-1"></i> Refresh
+                            </button>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-filter me-1"></i> Filter
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item filter-item active" href="#" data-filter="all">All Reports</a></li>
+                                <li><a class="dropdown-item filter-item" href="#" data-filter="pending">Pending</a></li>
+                                <li><a class="dropdown-item filter-item" href="#" data-filter="under_review">Under Review</a></li>
+                                <li><a class="dropdown-item filter-item" href="#" data-filter="verified">Verified</a></li>
+                                <li><a class="dropdown-item filter-item" href="#" data-filter="rejected">Rejected</a></li>
+                                <li><a class="dropdown-item filter-item" href="#" data-filter="action_taken">Action Taken</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="row mb-4">
+                    <div class="col-xl-2 col-md-4 mb-4">
+                        <div class="card dashboard-card border-start border-primary border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-primary">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div class="stat-number text-primary" id="totalReports">0</div>
+                                <div class="text-xs fw-bold text-primary text-uppercase">
+                                    Total Reports
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-md-4 mb-4">
+                        <div class="card dashboard-card border-start border-warning border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-warning">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-number text-warning" id="pendingReports">0</div>
+                                <div class="text-xs fw-bold text-warning text-uppercase">
+                                    Pending
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-md-4 mb-4">
+                        <div class="card dashboard-card border-start border-info border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-info">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="stat-number text-info" id="underReviewReports">0</div>
+                                <div class="text-xs fw-bold text-info text-uppercase">
+                                    Under Review
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-md-4 mb-4">
+                        <div class="card dashboard-card border-start border-success border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-number text-success" id="verifiedReports">0</div>
+                                <div class="text-xs fw-bold text-success text-uppercase">
+                                    Verified
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-md-4 mb-4">
+                        <div class="card dashboard-card border-start border-danger border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-danger">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                                <div class="stat-number text-danger" id="rejectedReports">0</div>
+                                <div class="text-xs fw-bold text-danger text-uppercase">
+                                    Rejected
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-md-4 mb-4">
+                        <div class="card dashboard-card border-start border-secondary border-4">
+                            <div class="card-body text-center">
+                                <div class="dashboard-icon text-secondary">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                                <div class="stat-number text-secondary" id="actionTakenReports">0</div>
+                                <div class="text-xs fw-bold text-secondary text-uppercase">
+                                    Action Taken
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Table -->
+                <div class="card dashboard-card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list me-2"></i>
+                            All Health Reports
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="reportsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Report Details</th>
+                                        <th>Submitted By</th>
+                                        <th>Location</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportsBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div class="loading-spinner mx-auto mb-2"></div>
+                                            <p>Loading reports...</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- No Reports Message -->
+                        <div class="text-center d-none" id="noReports">
+                            <div class="py-5">
+                                <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                                <h4>No Reports Found</h4>
+                                <p class="text-muted">There are no health reports submitted yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Report Details Modal -->
+    <div class="modal fade" id="reportDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Report Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="reportDetailsContent">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/socket.js"></script>
+    <script src="/js/admin.js"></script>
+    
+    <script>
+        let allReports = [];
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadReports();
+            setupFilterHandlers();
+            
+            // Refresh every 30 seconds
+            setInterval(loadReports, 30000);
+        });
+
+        function loadReports() {
+            fetch('/api/admin/reports')
+                .then(response => response.json())
+                .then(reports => {
+                    allReports = reports;
+                    updateStatistics(reports);
+                    renderReportsTable(reports);
+                })
+                .catch(error => {
+                    console.error('Error loading reports:', error);
+                    healthSystem.showNotification('Error loading reports', 'error');
+                });
+        }
+
+        function updateStatistics(reports) {
+            const total = reports.length;
+            const pending = reports.filter(r => r.status === 'pending').length;
+            const underReview = reports.filter(r => r.status === 'under_review').length;
+            const verified = reports.filter(r => r.status === 'verified').length;
+            const rejected = reports.filter(r => r.status === 'rejected').length;
+            const actionTaken = reports.filter(r => r.status === 'action_taken').length;
+
+            document.getElementById('totalReports').textContent = total;
+            document.getElementById('pendingReports').textContent = pending;
+            document.getElementById('underReviewReports').textContent = underReview;
+            document.getElementById('verifiedReports').textContent = verified;
+            document.getElementById('rejectedReports').textContent = rejected;
+            document.getElementById('actionTakenReports').textContent = actionTaken;
+
+            // Update sidebar badge
+            document.getElementById('pendingReportsBadge').textContent = pending;
+        }
+
+        function renderReportsTable(reports) {
+            const tbody = document.getElementById('reportsBody');
+            const noReports = document.getElementById('noReports');
+
+            // Apply current filter
+            const filteredReports = currentFilter === 'all' 
+                ? reports 
+                : reports.filter(report => report.status === currentFilter);
+
+            if (filteredReports.length === 0) {
+                tbody.innerHTML = '';
+                noReports.classList.remove('d-none');
+                return;
+            }
+
+            noReports.classList.add('d-none');
+
+            let html = '';
+            filteredReports.forEach(report => {
+                const reportDate = new Date(report.created_at).toLocaleDateString();
+                const statusColor = getStatusBadgeColor(report.status);
+
+                html += `
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                ${report.report_image ? `
+                                    <div class="flex-shrink-0 me-3">
+                                        <img src="${report.report_image}" alt="Report Image" 
+                                             class="rounded" style="width: 60px; height: 60px; object-fit: cover; cursor: pointer"
+                                             onclick="showReportDetails(${report.id})">
+                                    </div>
+                                ` : ''}
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1" style="cursor: pointer" onclick="showReportDetails(${report.id})">
+                                        ${report.title}
+                                    </h6>
+                                    <p class="mb-1 text-muted small">${report.description.substring(0, 100)}...</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-${report.user_role === 'health_worker' ? 'user-md text-primary' : 'user text-success'} me-2"></i>
+                                <div>
+                                    <div class="fw-bold">${report.full_name || report.username}</div>
+                                    <small class="text-muted">${report.user_role.replace('_', ' ')}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <small>${report.location}</small>
+                        </td>
+                        <td>
+                            <small>${reportDate}</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-${statusColor}">
+                                ${report.status.replace('_', ' ')}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-primary" onclick="showReportDetails(${report.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-info update-report-status" 
+                                        data-report-id="${report.id}" 
+                                        data-current-status="${report.status}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function setupFilterHandlers() {
+            document.querySelectorAll('.filter-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active state
+                    document.querySelectorAll('.filter-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    currentFilter = this.getAttribute('data-filter');
+                    renderReportsTable(allReports);
+                });
+            });
+        }
+
+        function showReportDetails(reportId) {
+            const report = allReports.find(r => r.id === reportId);
+            if (!report) return;
+
+            const modalContent = document.getElementById('reportDetailsContent');
+            const modal = new bootstrap.Modal(document.getElementById('reportDetailsModal'));
+
+            modalContent.innerHTML = `
+                <div class="row">
+                    <div class="col-md-8">
+                        <h6>Report Title</h6>
+                        <p class="mb-3">${report.title}</p>
+                        
+                        <h6>Description</h6>
+                        <p class="mb-3">${report.description}</p>
+                        
+                        <h6>Location</h6>
+                        <p class="mb-3">${report.location}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Report Information</h6>
+                        <div class="mb-3">
+                            <strong>Status:</strong>
+                            <span class="badge bg-${getStatusBadgeColor(report.status)} ms-2">
+                                ${report.status.replace('_', ' ')}
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Submitted By:</strong><br>
+                            ${report.full_name || report.username}<br>
+                            <small class="text-muted">${report.user_role.replace('_', ' ')}</small>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Date Submitted:</strong><br>
+                            ${new Date(report.created_at).toLocaleString()}
+                        </div>
+                        ${report.admin_notes ? `
+                            <div class="mb-3">
+                                <strong>Admin Notes:</strong><br>
+                                <p class="text-muted">${report.admin_notes}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+                ${report.report_image ? `
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h6>Report Image</h6>
+                            <img src="${report.report_image}" alt="Report Image" class="img-fluid rounded">
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+
+            modal.show();
+        }
+
+        function getStatusBadgeColor(status) {
+            const colors = {
+                'pending': 'warning',
+                'under_review': 'info',
+                'verified': 'success',
+                'rejected': 'danger',
+                'action_taken': 'primary'
+            };
+            return colors[status] || 'secondary';
+        }
+    </script>
+</body>
+</html>

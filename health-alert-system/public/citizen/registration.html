@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Registration - Gombe Health Alert System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="fas fa-user fa-3x mb-3"></i>
+            <h2>Citizen Registration</h2>
+            <p class="mb-0">Join Gombe Health Alert System</p>
+        </div>
+        <div class="auth-body">
+            <form id="citizenRegistrationForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" required 
+                                   placeholder="Enter your full name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username *</label>
+                            <input type="text" class="form-control" id="username" name="username" required 
+                                   placeholder="Choose a username">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address *</label>
+                    <input type="email" class="form-control" id="email" name="email" required 
+                           placeholder="Enter your email">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required 
+                                   placeholder="e.g., 08012345678">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="lga" class="form-label">LGA of Residence *</label>
+                            <select class="form-select" id="lga" name="lga" required>
+                                <option value="">Select LGA</option>
+                                <option value="Akko">Akko</option>
+                                <option value="Balanga">Balanga</option>
+                                <option value="Billiri">Billiri</option>
+                                <option value="Dukku">Dukku</option>
+                                <option value="Funakaye">Funakaye</option>
+                                <option value="Gombe">Gombe</option>
+                                <option value="Kaltungo">Kaltungo</option>
+                                <option value="Kwami">Kwami</option>
+                                <option value="Nafada">Nafada</option>
+                                <option value="Shongom">Shongom</option>
+                                <option value="Yamaltu/Deba">Yamaltu/Deba</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password *</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required 
+                                       placeholder="Create password">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">Minimum 8 characters</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password *</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required 
+                                   placeholder="Confirm password">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+                <h5 class="mb-3"><i class="fas fa-shield-alt me-2"></i>Security Questions</h5>
+                <p class="text-muted small">These will be used for password recovery</p>
+
+                <div class="mb-3">
+                    <label for="security_question1" class="form-label">Security Question 1 *</label>
+                    <select class="form-select" id="security_question1" name="security_question1" required>
+                        <option value="">Select a question</option>
+                        <option value="What was your first pet's name?">What was your first pet's name?</option>
+                        <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                        <option value="What city were you born in?">What city were you born in?</option>
+                        <option value="What is your favorite book?">What is your favorite book?</option>
+                        <option value="What was your first school name?">What was your first school name?</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="security_answer1" class="form-label">Answer *</label>
+                    <input type="text" class="form-control" id="security_answer1" name="security_answer1" required 
+                           placeholder="Enter your answer">
+                </div>
+
+                <div class="mb-3">
+                    <label for="security_question2" class="form-label">Security Question 2 *</label>
+                    <select class="form-select" id="security_question2" name="security_question2" required>
+                        <option value="">Select a question</option>
+                        <option value="What is your favorite food?">What is your favorite food?</option>
+                        <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+                        <option value="What is your favorite movie?">What is your favorite movie?</option>
+                        <option value="What is your father's middle name?">What is your father's middle name?</option>
+                        <option value="What is your favorite sport?">What is your favorite sport?</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="security_answer2" class="form-label">Answer *</label>
+                    <input type="text" class="form-control" id="security_answer2" name="security_answer2" required 
+                           placeholder="Enter your answer">
+                </div>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label" for="terms">
+                        I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> 
+                        and <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Register as Citizen
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="mb-0">
+                    Already have an account? 
+                    <a href="/citizen/login" class="text-decoration-none fw-bold">Login here</a>
+                </p>
+                <p class="mt-2">
+                    <a href="/" class="text-decoration-none">
+                        <i class="fas fa-arrow-left me-1"></i>
+                        Back to Home
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Terms of Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>By registering with the Gombe Health Alert System, you agree to:</p>
+                    <ul>
+                        <li>Provide accurate and truthful information</li>
+                        <li>Use the system for legitimate health reporting purposes only</li>
+                        <li>Respect the privacy and confidentiality of health information</li>
+                        <li>Follow guidelines set by the Gombe State Ministry of Health</li>
+                        <li>Not misuse the system for false reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Your privacy is important to us. We collect and use your information to:</p>
+                    <ul>
+                        <li>Verify your identity and maintain account security</li>
+                        <li>Process health reports and alerts</li>
+                        <li>Communicate important health information</li>
+                        <li>Improve our services</li>
+                    </ul>
+                    <p>We do not share your personal information with third parties without your consent, except as required by law.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registrationForm = document.getElementById('citizenRegistrationForm');
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm_password');
+
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                confirmPasswordInput.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+
+            // Password validation
+            passwordInput.addEventListener('input', validatePassword);
+            confirmPasswordInput.addEventListener('input', validatePassword);
+
+            function validatePassword() {
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                
+                if (password.length > 0 && password.length < 8) {
+                    passwordInput.classList.add('is-invalid');
+                    return false;
+                } else {
+                    passwordInput.classList.remove('is-invalid');
+                }
+
+                if (confirmPassword.length > 0 && password !== confirmPassword) {
+                    confirmPasswordInput.classList.add('is-invalid');
+                    return false;
+                } else {
+                    confirmPasswordInput.classList.remove('is-invalid');
+                }
+
+                return true;
+            }
+
+            // Handle form submission
+            registrationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!validatePassword()) {
+                    healthSystem.showNotification('Please check your password requirements', 'error');
+                    return;
+                }
+
+                const submitButton = this.querySelector('button[type="submit"]');
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+
+                healthSystem.setLoadingState(submitButton, true);
+
+                try {
+                    const response = await fetch('/api/citizen/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        healthSystem.showNotification(
+                            'Registration successful! Your account is pending verification. You will be notified once approved.', 
+                            'success'
+                        );
+                        
+                        // Clear form
+                        registrationForm.reset();
+                        
+                        // Redirect to login after delay
+                        setTimeout(() => {
+                            window.location.href = '/citizen/login';
+                        }, 3000);
+                    } else {
+                        healthSystem.showNotification(result.error, 'error');
+                    }
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    healthSystem.showNotification('Registration failed. Please try again.', 'error');
+                } finally {
+                    healthSystem.setLoadingState(submitButton, false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
